@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat</title>
+  <link rel="stylesheet" href="static/styles.css">
+</head>
+
+<body>
+  <div class="glowing">
+    <span style="--i:1;"></span>
+    <span style="--i:2;"></span>
+    <span style="--i:3;"></span>
+  </div>
+
+  <div class="glowing">
+    <span style="--i:1;"></span>
+    <span style="--i:2;"></span>
+    <span style="--i:3;"></span>
+  </div>
+
+  <div class="glowing">
+    <span style="--i:1;"></span>
+    <span style="--i:2;"></span>
+    <span style="--i:3;"></span>
+  </div>
+
+  <div class="glowing">
+    <span style="--i:1;"></span>
+    <span style="--i:2;"></span>
+    <span style="--i:3;"></span>
+  </div>
+
+  <div class="container">
+    <header>
+      <h1>Chat with Me</h1>
+    </header>
+
+    <div class="chat-window">
+      <div class="chat-container" id="chat-container">
+        <div class="message received">
+          <div class="message-content">
+            <p>Hello there!</p>
+          </div>
+        </div>
+
+        <div class="message sent">
+          <div class="message-content">
+            <p>Hi! How can I assist you?</p>
+          </div>
+        </div>
+
+        <!-- Add more messages as needed -->
+
+      </div>
+    </div>
+
+    <div class="input-container">
+      <input type="text" id="user-message-input" placeholder="Enter your message...">
+      <button id="send-btn">Send</button>
+    </div>
+
+    <footer>
+      <p>&copy; Aryan Pillai. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Function to send user message and display system reply
+      function sendMessage() {
+        var userMessage = $('#user-message-input').val().trim();
+        if (userMessage !== '') {
+          // Append the user message to the chat container
+          $('#chat-container').append('<div class="message sent"><div class="message-content"><p>' + userMessage + '</p></div></div>');
+          // Clear the user message input field
+          $('#user-message-input').val('');
+
+          // Send the user message to the Flask API
+          $.ajax({
+            url: '/api/chat',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+              'message': userMessage
+            }),
+            success: function(response) {
+              var systemReply = response.reply;
+              // Append the system reply to the chat container
+              $('#chat-container').append('<div class="message received"><div class="message-content"><p>' + systemReply + '</p></div></div>');
+              // Scroll to the bottom of the chat container
+              $('#chat-container').scrollTop($('#chat-container')[0].scrollHeight);
+            },
+            error: function(error) {
+              console.log(error);
+            }
+          });
+        }
+      }
+
+      // Handle send button click event
+      $('#send-btn').click(function() {
+        sendMessage();
+      });
+
+      // Handle enter key press event in the user message input field
+      $('#user-message-input').keypress(function(event) {
+        if (event.which === 13) {
+          event.preventDefault();
+          sendMessage();
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
