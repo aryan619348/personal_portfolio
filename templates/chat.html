@@ -5,32 +5,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chat</title>
-  <link rel="stylesheet" href="static/styles.css">
+  <link rel="stylesheet" href="static/chatbot_styles.css">
 </head>
 
 <body>
-  <div class="glowing">
-    <span style="--i:1;"></span>
-    <span style="--i:2;"></span>
-    <span style="--i:3;"></span>
-  </div>
+  <div class="animated-background">
+    <div class="glowing">
+      <span style="--i:1;"></span>
+      <span style="--i:2;"></span>
+      <span style="--i:3;"></span>
+    </div>
 
-  <div class="glowing">
-    <span style="--i:1;"></span>
-    <span style="--i:2;"></span>
-    <span style="--i:3;"></span>
-  </div>
+    <div class="glowing">
+      <span style="--i:1;"></span>
+      <span style="--i:2;"></span>
+      <span style="--i:3;"></span>
+    </div>
 
-  <div class="glowing">
-    <span style="--i:1;"></span>
-    <span style="--i:2;"></span>
-    <span style="--i:3;"></span>
-  </div>
+    <div class="glowing">
+      <span style="--i:1;"></span>
+      <span style="--i:2;"></span>
+      <span style="--i:3;"></span>
+    </div>
 
-  <div class="glowing">
-    <span style="--i:1;"></span>
-    <span style="--i:2;"></span>
-    <span style="--i:3;"></span>
+    <div class="glowing">
+      <span style="--i:1;"></span>
+      <span style="--i:2;"></span>
+      <span style="--i:3;"></span>
+    </div>
   </div>
 
   <div class="container">
@@ -46,19 +48,20 @@
           </div>
         </div>
 
-        <div class="message sent">
+        <div class="message received">
           <div class="message-content">
-            <p>Hi! How can I assist you?</p>
+            <p>Ask me any question about Aryan Pillai and I will try to provide an answer</p>
           </div>
         </div>
 
         <!-- Add more messages as needed -->
 
       </div>
+      <div id="bottom-anchor"></div>
     </div>
 
     <div class="input-container">
-      <input type="text" id="user-message-input" placeholder="Enter your message...">
+      <input type="text" id="user-message-input" placeholder="Type a message...">
       <button id="send-btn">Send</button>
     </div>
 
@@ -69,51 +72,61 @@
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    $(document).ready(function() {
-      // Function to send user message and display system reply
-      function sendMessage() {
+        $(document).ready(function() {
+    // Function to send user message and display system reply
+    function sendMessage() {
         var userMessage = $('#user-message-input').val().trim();
         if (userMessage !== '') {
-          // Append the user message to the chat container
-          $('#chat-container').append('<div class="message sent"><div class="message-content"><p>' + userMessage + '</p></div></div>');
-          // Clear the user message input field
-          $('#user-message-input').val('');
+        // Append the user message to the chat container
+        $('#chat-container').append('<div class="message sent"><div class="message-content"><p>' + userMessage + '</p></div></div>');
+        // Clear the user message input field
+        $('#user-message-input').val('');
 
-          // Send the user message to the Flask API
-          $.ajax({
+        // Send the user message to the Flask API
+        $.ajax({
             url: '/api/chat',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({
-              'message': userMessage
+            'message': userMessage
             }),
             success: function(response) {
-              var systemReply = response.reply;
-              // Append the system reply to the chat container
-              $('#chat-container').append('<div class="message received"><div class="message-content"><p>' + systemReply + '</p></div></div>');
-              // Scroll to the bottom of the chat container
-              $('#chat-container').scrollTop($('#chat-container')[0].scrollHeight);
+            var systemReply = response.reply;
+            // Append the system reply to the chat container
+            $('#chat-container').append('<div class="message received"><div class="message-content"><p>' + systemReply + '</p></div></div>');
+            // Scroll to the bottom of the chat container after a slight delay
+            setTimeout(scrollChatContainer, 100);
             },
             error: function(error) {
-              console.log(error);
+            console.log(error);
             }
-          });
+        });
         }
-      }
+    }
 
-      // Handle send button click event
-      $('#send-btn').click(function() {
+    // Function to scroll the chat container to the bottom
+    function scrollChatContainer() {
+        var chatContainer = document.getElementById('chat-container');
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    // Handle send button click event
+    $('#send-btn').click(function() {
         sendMessage();
-      });
-
-      // Handle enter key press event in the user message input field
-      $('#user-message-input').keypress(function(event) {
-        if (event.which === 13) {
-          event.preventDefault();
-          sendMessage();
-        }
-      });
     });
+
+    // Handle enter key press event in the user message input field
+    $('#user-message-input').keypress(function(event) {
+        if (event.which === 13) {
+        event.preventDefault();
+        sendMessage();
+        }
+    });
+
+    // Scroll to the bottom of the chat container initially
+    setTimeout(scrollChatContainer, 100);
+    });
+
   </script>
 </body>
 
