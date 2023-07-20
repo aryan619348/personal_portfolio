@@ -207,3 +207,39 @@ footer {
   color: #ffffff;
 }
 
+
+/* Add this CSS to align the buttons */
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.btn {
+  display: inline-block;
+  padding: 30px 60px;
+  background-color: #ff5722;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 10px;
+  margin: 10px;
+  font-size: 20px;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn:hover {
+  background-color: #e64a19;
+}
+
+/* Adjust the width of the buttons for smaller screens */
+@media screen and (max-width: 768px) {
+  .buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+}
