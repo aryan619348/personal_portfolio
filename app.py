@@ -9,11 +9,6 @@ app.static_folder = 'static'
 def home():
     return render_template('index.html')
 
-
-@app.route('/logo')
-def logo():
-    return render_template('index.html')
-
 @app.route('/chatbot')
 def chatbot():
     # Add your chatbot logic here
