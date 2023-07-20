@@ -236,6 +236,7 @@ footer {
   background-color: #e64a19;
 }
 
+
 /* Adjust the width of the buttons for smaller screens */
 @media screen and (max-width: 768px) {
   .buttons {
