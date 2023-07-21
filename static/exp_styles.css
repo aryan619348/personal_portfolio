@@ -239,8 +239,56 @@ footer {
 
 /* Adjust the width of the buttons for smaller screens */
 @media screen and (max-width: 768px) {
-  .buttons {
-    flex-direction: column;
-    align-items: center;
-  }
+  /* Additional CSS for the experience section */
+
+.container {
+  height: auto; /* Remove the fixed height */
+  overflow-y: hidden; /* Remove the scroll behavior */
+}
+
+.experience {
+  flex-direction: column; /* Stack the experience sections vertically */
+}
+
+.experience-details,
+.company-image {
+  flex-basis: 100%; /* Ensure each section takes full width on small screens */
+  max-width: 100%; /* Ensure images do not exceed the container width */
+  padding: 20px; /* Add some spacing around the content */
+  box-sizing: border-box; /* Include padding in the width calculation */
+}
+
+.company-image img {
+  width: 100%; /* Make sure the image occupies the full width of its container */
+  height: auto;
+  max-width: 500px; /* Limit the image width to avoid overflow */
+}
+
+.title {
+  font-size: 36px; /* Reduce the font size for better fit */
+  margin-bottom: 20px; /* Add some spacing between the title and content */
+}
+
+.experience-details h2 {
+  margin-top: 20px; /* Add spacing above the headings */
+}
+
+/* Adjust the width of the buttons for smaller screens */
+.buttons {
+  display: grid; /* Change to grid to stack buttons */
+  grid-template-columns: 1fr; /* Show buttons in a single column */
+  grid-gap: 20px; /* Add some gap between buttons */
+  margin-top: 20px;
+}
+
+.btn {
+  width: 100%; /* Make the buttons occupy full width on small screens */
+  max-width: 300px; /* Limit the button width for better spacing */
+}
+
+/* Adjust the logo */
+.logo {
+  margin-bottom: 20px; /* Increase the margin for better spacing */
+}
+
 }

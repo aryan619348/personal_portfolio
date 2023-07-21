@@ -245,7 +245,40 @@ footer p {
 
 @media screen and (max-width: 768px) {
   .buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .about {
     flex-direction: column;
     align-items: center;
   }
+
+  .about-content {
+    width: 100%;
+    text-align: center;
+  }
+
+  .about-image {
+    width: 100%;
+    text-align: center;
+  }
+
+  .about-image img {
+    width: 100%;
+    max-width: 300px; /* Adjust this value according to your preference */
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .logo {
+    max-width: 200px;
+    margin-bottom: 20px;
+    align-self: auto;
+  }
 }
+
