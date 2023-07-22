@@ -1,3 +1,11 @@
 Flask==2.3.2
 Flask_Cors==3.0.10
 waitress==2.1.2
+langchain==0.0.239
+PyDrive==1.3.1
+PyPDF2==3.0.1
+faiss-cpu
+openai
+tiktoken
+waitress==2.1.2
+python-dotenv

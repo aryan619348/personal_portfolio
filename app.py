@@ -1,6 +1,15 @@
 from flask import Flask, render_template,jsonify,request
 from flask_cors import CORS
+from langchain.callbacks import get_openai_callback
+from langchain.chat_models import ChatOpenAI
+from langchain.chains.question_answering import load_qa_chain
+from langchain.callbacks import get_openai_callback
 from waitress import serve
+import pickle
+from dotenv import load_dotenv
+import os
+load_dotenv()
+os.environ["OPENAI_API_KEY"] = os.getenv('OPENAI_API_KEY')
 
 app = Flask(__name__)
 CORS(app)
@@ -19,18 +28,25 @@ def chatbot():
 @app.route('/api/chat', methods=['POST'])
 def chat():
     data = request.get_json()
-    message = data['message']
+    question = data['message']
+    with get_openai_callback() as cb:
+        with open("my_website_embeddings", "rb") as f:
+            VectorStore = pickle.load(f)
 
-    # Your chatbot logic goes here
-    # Process the user's message and generate a system reply
-
-    # For example, let's say the system reply is stored in the 'system_reply' variable
-    system_reply = "This is the system's reply."
-
+        llm = ChatOpenAI(temperature=0, model_name='gpt-3.5-turbo')
+        chain = load_qa_chain(llm, chain_type="stuff")
+        
+        docs = VectorStore.similarity_search(question)
+        answer = chain.run(input_documents=docs, question=question)
+        print(cb)
+        print(answer)
+    
+    # Convert newlines in the answer to HTML line breaks '<br>'
+    formatted_answer = answer.replace('\n', '<br>')
+    
     response = {
-        'reply': system_reply
+        'reply': formatted_answer
     }
-
     return jsonify(response)
 
 @app.route('/experiences')
