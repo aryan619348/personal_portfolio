@@ -1,4 +1,5 @@
 import requests
+from urllib.parse import urljoin
 import pickle
 from langchain import FAISS
 from langchain.embeddings import OpenAIEmbeddings
@@ -7,10 +8,21 @@ import pylibmagic
 from langchain.document_loaders import PlaywrightURLLoader, PyPDFLoader
 from langchain.document_loaders.merge import MergedDataLoader
 from dotenv import load_dotenv
-
 import os
 load_dotenv()
+from langchain.vectorstores import Pinecone
+import pinecone
 os.environ["OPENAI_API_KEY"] = os.getenv('OPENAI_API_KEY')
+PINECONE_API_KEY = os.environ.get('PINECONE_API_KEY', '678e32a3-6032-41cf-ba35-4646120509f3')
+PINECONE_API_ENV = os.environ.get('PINECONE_API_ENV', 'us-west4-gcp-free')
+
+
+
+pinecone.init(
+    api_key=PINECONE_API_KEY,  # find at app.pinecone.io
+    environment=PINECONE_API_ENV  # next to api key in console
+)
+index_name = "portfolio"
 
 urls =['https://aryanswebsite.azurewebsites.net/',
        'https://aryanswebsite.azurewebsites.net/experiences',
@@ -34,9 +46,11 @@ text_splitter = CharacterTextSplitter(separator='\n',
 
 docs = text_splitter.split_documents(data)
 
+index = pinecone.Index(index_name)
 embeddings = OpenAIEmbeddings()
-db = FAISS.from_documents(docs, embeddings)
+doc_store = Pinecone.from_texts([d.page_content for d in docs], embeddings, index_name=index_name)
 
-db.save_local("faiss_index_portfolio")
+# vectorStore_openAI = FAISS.from_documents(docs, embeddings)
+
 # with open("my_website_embeddings", "wb") as f:
 #     pickle.dump(vectorStore_openAI, f)
