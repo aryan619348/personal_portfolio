@@ -9,7 +9,8 @@ import pickle
 from dotenv import load_dotenv
 import os
 load_dotenv()
-os.getenv('OPENAI_API_KEY')
+OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', "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")
+
 
 app = Flask(__name__)
 CORS(app)
