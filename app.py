@@ -8,6 +8,8 @@ from waitress import serve
 import pickle5 as pickle
 from dotenv import load_dotenv
 import os
+from langchain import FAISS
+from langchain.embeddings import OpenAIEmbeddings
 load_dotenv()
 function_dir = os.path.dirname(os.path.realpath(__file__))
 vectore_path = os.path.join(function_dir, 'my_website_embeddings')
@@ -34,8 +36,10 @@ def chat():
     data = request.get_json()
     question = data['message']
     with get_openai_callback() as cb:
-        with open(vectore_path, "rb") as f:
-            VectorStore = pickle.load(f)
+        # with open(vectore_path, "rb") as f:
+        #     VectorStore = pickle.load(f)
+        embeddings = OpenAIEmbeddings()
+        VectorStore = FAISS.load_local("faiss_index_portfolio", embeddings)
 
         llm = ChatOpenAI(temperature=0, model_name='gpt-3.5-turbo')
         chain = load_qa_chain(llm, chain_type="stuff")
