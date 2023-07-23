@@ -9,11 +9,23 @@ import os
 from langchain.vectorstores import Pinecone
 import pinecone
 from langchain.embeddings import OpenAIEmbeddings
+import os
+from dotenv import load_dotenv
+
+# Load the environment variables from the .env file
+load_dotenv()
+
+#for production
+# OPENAI_API_KEY = os.environ['OPENAI_API_KEY']
+# PINECONE_API_KEY = os.environ['PINECONE_API_KEY']
+# PINECONE_API_ENV = os.environ['PINECONE_API_ENV']
+
+#for testing
+os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
+PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
+PINECONE_API_ENV = os.getenv("PINECONE_API_ENV")
 
 
-OPENAI_API_KEY = os.environ['OPENAI_API_KEY']
-PINECONE_API_KEY = os.environ['PINECONE_API_KEY']
-PINECONE_API_ENV = os.environ['PINECONE_API_ENV']
 pinecone.init(
     api_key=PINECONE_API_KEY,  # find at app.pinecone.io
     environment=PINECONE_API_ENV  # next to api key in console
