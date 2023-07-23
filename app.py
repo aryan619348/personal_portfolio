@@ -9,6 +9,9 @@ import pickle
 from dotenv import load_dotenv
 import os
 load_dotenv()
+function_dir = os.path.dirname(os.path.realpath(__file__))
+vectore_path = os.path.join(function_dir, 'my_website_embeddings')
+
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', "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")
 
 
@@ -31,7 +34,7 @@ def chat():
     data = request.get_json()
     question = data['message']
     with get_openai_callback() as cb:
-        with open("my_website_embeddings", "rb") as f:
+        with open(vectore_path, "rb") as f:
             VectorStore = pickle.load(f)
 
         llm = ChatOpenAI(temperature=0, model_name='gpt-3.5-turbo')
