@@ -5,7 +5,6 @@ from langchain.chat_models import ChatOpenAI
 from langchain.chains.question_answering import load_qa_chain
 from langchain.callbacks import get_openai_callback
 from waitress import serve
-# import pickle5 as pickle
 from dotenv import load_dotenv
 import os
 from langchain import FAISS
