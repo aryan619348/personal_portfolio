@@ -8,10 +8,19 @@ import pylibmagic
 from langchain.document_loaders import PlaywrightURLLoader, PyPDFLoader
 from langchain.document_loaders.merge import MergedDataLoader
 from dotenv import load_dotenv
-
+from langchain.vectorstores import Pinecone
+import pinecone
 import os
 load_dotenv()
 os.environ["OPENAI_API_KEY"] = os.getenv('OPENAI_API_KEY')
+PINECONE_API_KEY = os.environ.get('PINECONE_API_KEY', '678e32a3-6032-41cf-ba35-4646120509f3')
+PINECONE_API_ENV = os.environ.get('PINECONE_API_ENV', 'us-west4-gcp-free')
+
+pinecone.init(
+    api_key=PINECONE_API_KEY,  # find at app.pinecone.io
+    environment=PINECONE_API_ENV  # next to api key in console
+)
+index_name = "portfolio"
 
 urls =['https://aryanswebsite.azurewebsites.net/',
        'https://aryanswebsite.azurewebsites.net/experiences',
@@ -36,7 +45,6 @@ text_splitter = CharacterTextSplitter(separator='\n',
 docs = text_splitter.split_documents(data)
 
 embeddings = OpenAIEmbeddings()
-vectorStore_openAI = FAISS.from_documents(docs, embeddings)
 
-with open("my_website_embeddings", "wb") as f:
-    pickle.dump(vectorStore_openAI, f)
+docsearch = Pinecone.from_documents(docs, embeddings, index_name=index_name)
+""

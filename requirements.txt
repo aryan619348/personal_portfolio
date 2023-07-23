@@ -9,3 +9,4 @@ faiss-cpu
 openai
 tiktoken
 waitress==2.1.2
+pickle5 
