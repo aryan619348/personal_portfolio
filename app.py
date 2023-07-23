@@ -5,19 +5,15 @@ from langchain.chat_models import ChatOpenAI
 from langchain.chains.question_answering import load_qa_chain
 from langchain.callbacks import get_openai_callback
 from waitress import serve
-from dotenv import load_dotenv
 import os
 from langchain.vectorstores import Pinecone
 import pinecone
 from langchain.embeddings import OpenAIEmbeddings
-load_dotenv()
-function_dir = os.path.dirname(os.path.realpath(__file__))
-vectore_path = os.path.join(function_dir, 'my_website_embeddings')
 
-# OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', "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")
+
 OPENAI_API_KEY = os.environ['OPENAI_API_KEY']
-PINECONE_API_KEY = os.environ.get('PINECONE_API_KEY', '678e32a3-6032-41cf-ba35-4646120509f3')
-PINECONE_API_ENV = os.environ.get('PINECONE_API_ENV', 'us-west4-gcp-free')
+PINECONE_API_KEY = os.environ['PINECONE_API_KEY']
+PINECONE_API_ENV = os.environ['PINECONE_API_ENV']
 pinecone.init(
     api_key=PINECONE_API_KEY,  # find at app.pinecone.io
     environment=PINECONE_API_ENV  # next to api key in console

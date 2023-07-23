@@ -1,7 +1,6 @@
 import requests
 from urllib.parse import urljoin
 import pickle
-from langchain import FAISS
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.text_splitter import CharacterTextSplitter
 import pylibmagic
