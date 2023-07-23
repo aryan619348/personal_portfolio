@@ -1,3 +1,4 @@
+python-dotenv==1.0.0
 Flask==2.3.2
 Flask_Cors==3.0.10
 google_api_python_client==2.86.0
