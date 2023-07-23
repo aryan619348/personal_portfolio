@@ -12,8 +12,8 @@ load_dotenv()
 from langchain.vectorstores import Pinecone
 import pinecone
 os.environ["OPENAI_API_KEY"] = os.getenv('OPENAI_API_KEY')
-PINECONE_API_KEY = os.environ.get('PINECONE_API_KEY', '678e32a3-6032-41cf-ba35-4646120509f3')
-PINECONE_API_ENV = os.environ.get('PINECONE_API_ENV', 'us-west4-gcp-free')
+PINECONE_API_KEY = os.environ.get('PINECONE_API_KEY', 'GET_KEY')
+PINECONE_API_ENV = os.environ.get('PINECONE_API_ENV', 'GET_KEY')
 
 
 
